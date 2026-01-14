@@ -9,11 +9,18 @@
 
 namespace sat {
     Solver::Solver(unsigned numVariables) {
-        throw NOT_IMPLEMENTED;
+        clauses = 
+        unitLiterals = ;
     }
 
     bool Solver::addClause(Clause clause) {
-        throw NOT_IMPLEMENTED;
+        if (clause.size() <= 1){
+            return false;
+        } else{
+            ClausePointer clausePtr = std::make_shared<Clause>(clause);
+            clauses.push_back(clausePtr);
+            return true;
+        }
     }
 
     /**

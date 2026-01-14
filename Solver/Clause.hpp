@@ -34,7 +34,9 @@ namespace sat {
      * std::vector<Literal>::begin() and end() respectively
      */
     class Clause {
-        // @TODO Private members here
+        std::vector<Literal> literals;
+        std::size_t firstWatcherIndex;
+        std::size_t secondWatcherIndex;
     public:
 
         /**

@@ -27,7 +27,7 @@ namespace sat {
      * @brief Structure representing a binary variable in a CNF-SAT problem
      */
     class  Variable {
-        //@TODO Private members here
+        unsigned id;
     public:
         /**
          * CTor
@@ -54,7 +54,7 @@ namespace sat {
      * A literal of variable x is either x or ¬x
      */
     class Literal {
-        //@TODO Private members here
+        unsigned id;
     public:
         /**
          * CTor

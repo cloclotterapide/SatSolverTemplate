@@ -13,48 +13,98 @@
 namespace sat {
     //TODO implementation here
 
-    Clause::Clause(std::vector<Literal> literals) {
-        throw NOT_IMPLEMENTED;
+    Clause::Clause(std::vector<Literal> literals){
+        this->literals = literals;
+        firstWatcherIndex = literals.size() > 0 ? 0 : NULL;
+        secondWatcherIndex = literals.size() > 1 ? 1 : NULL;
     }
 
     short Clause::getRank(Literal l) const {
-        throw NOT_IMPLEMENTED;
+        if (l == literals.at(firstWatcherIndex)) {
+            return 0;
+        } else if (l == literals.at(secondWatcherIndex)){
+            return 1;
+        } else {
+            return -1;
+        }
     }
 
     std::size_t Clause::getIndex(short rank) const {
-        throw NOT_IMPLEMENTED;
+        for ( std :: size_t idx = 0; idx < literals.size() ; ++idx ){
+            if (rank == 0){
+                if (idx == firstWatcherIndex){
+                    return idx;
+                }
+            }else{
+                if (idx == secondWatcherIndex){
+                    return idx;
+                }
+            }
+        }
     }
 
+
     bool Clause::setWatcher(Literal l, short watcherNo) {
-        throw NOT_IMPLEMENTED;
+        for (std :: size_t idx = 0; idx < literals.size() ; ++idx ){
+            if (l == literals.at(idx)){
+                if (watcherNo == 0){
+                    firstWatcherIndex = idx;
+                }
+                else {
+                    secondWatcherIndex = idx;
+                }
+                return true;
+            }
+        }
+        return false;
     }
 
     auto Clause::begin() const -> std::vector<Literal>::const_iterator {
-        throw NOT_IMPLEMENTED;
+        return literals.begin();
     }
 
     auto Clause::end() const -> std::vector<Literal>::const_iterator {
-        throw NOT_IMPLEMENTED;
+        return literals.end();
     }
 
     bool Clause::isEmpty() const {
-        throw NOT_IMPLEMENTED;
+        return literals.empty();
     }
 
     Literal Clause::operator[](std::size_t index) const {
-        throw NOT_IMPLEMENTED;
+        return literals.at(index);
     }
 
     std::size_t Clause::size() const {
-        throw NOT_IMPLEMENTED;
+        return literals.size();
     }
 
     Literal Clause::getWatcherByRank(short rank) const {
-        throw NOT_IMPLEMENTED;
+        if (rank == 0){
+            return literals.at(firstWatcherIndex);
+        } else{
+            return literals.at(secondWatcherIndex);
+        }
     }
 
     bool Clause::sameLiterals(const Clause &other) const {
-        throw NOT_IMPLEMENTED;
+        if (literals.size() == other.literals.size()){
+            auto literalsCopy = literals;
+            auto otherLiteralsCopy = other.literals;
+
+            std::sort(literalsCopy.begin(),literalsCopy.end(),[](Literal A, Literal B){return A.get() > B.get();});
+            std::sort(otherLiteralsCopy.begin(),otherLiteralsCopy.end(),[](Literal A, Literal B){return A.get() > B.get();});
+
+            for ( std :: size_t idx = 0; idx < literals.size() ; ++idx ){
+                if (literalsCopy[idx] != otherLiteralsCopy[idx]){
+                    return false;
+                }
+            }
+            return true;
+
+        }else{
+            return false;
+        }
     }
 
 }

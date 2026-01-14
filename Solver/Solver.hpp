@@ -28,7 +28,9 @@ namespace sat {
      * @brief Main solver class
      */
     class Solver {
-        // @TODO private members here
+        
+        std::vector<ClausePointer> clauses;
+        std::vector<Literal> unitLiterals;
     public:
 
         /**
