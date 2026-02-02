@@ -8,8 +8,10 @@
 #ifndef SOLVER_HPP
 #define SOLVER_HPP
 
+#include <iostream>
+#include "printing.hpp"
 #include <memory>
-
+#include <unordered_map>
 #include "basic_structures.hpp"
 #include "Clause.hpp"
 
@@ -22,16 +24,29 @@ namespace sat {
      */
     using ClausePointer = std::shared_ptr<Clause>;
     using ConstClausePointer = std::shared_ptr<const Clause>;
+    template<typename T>
+    struct Hash {
+        auto operator()(const T &t) const noexcept {
+            using SubT = decltype(t.get());
+            return std::hash<SubT>{}(t.get());
+        }
+    };
 
+    using LitMap = std::unordered_map<sat::Literal, std::vector<ClausePointer>, Hash<sat::Literal>>;
 
     /**
      * @brief Main solver class
      */
     class Solver {
         
+        unsigned numVariables;
         std::vector<ClausePointer> clauses;
+        std::unordered_map<unsigned, TruthValue> model;
         std::vector<Literal> unitLiterals;
-    public:
+        LitMap watches;
+
+
+        public:
 
         /**
          * Ctor. Allocates enough space for the variables.
@@ -97,6 +112,10 @@ namespace sat {
          * @return true if unit propagation was successful, false otherwise
          */
         bool unitPropagate();
+
+        bool unitPropagate(Literal l);
+
+        void DPLL();
 
     };
 } // sat

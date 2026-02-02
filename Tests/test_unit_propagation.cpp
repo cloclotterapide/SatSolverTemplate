@@ -62,6 +62,9 @@ TEST(unit_propagation, problem1) {
     auto solver = loadSolver(test::TestData::UnitPropagationProblem1);
     ASSERT_TRUE(solver.unitPropagate()) << "Unit propagation failed";
     auto gt = loadSolution(test::TestData::UnitPropagationSolution1);
+
+    std::cout << "gt :" << gt << std::endl;
+    std::cout << "rebase :" << solver.rebase() << std::endl;
     testEquality(gt, solver.rebase());
 }
 
